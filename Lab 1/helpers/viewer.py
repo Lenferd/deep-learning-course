@@ -9,8 +9,9 @@ def plot_digit(X, y, idx):
     plt.show()
 
 
-def plot_digit2(image28x28):
+def plot_digit2(image28x28, label=""):
     reshapedIm = image28x28.reshape(28, 28)
     plt.imshow(reshapedIm, cmap=matplotlib.cm.binary)
+    plt.title('Label: %s' % label)
     plt.axis("off")
     plt.show()

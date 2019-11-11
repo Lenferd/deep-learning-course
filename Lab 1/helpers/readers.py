@@ -2,6 +2,7 @@ import mlxtend
 from sklearn.datasets import fetch_openml
 from mlxtend.data import mnist_data
 
+# http://rasbt.github.io/mlxtend/user_guide/data/loadlocal_mnist/
 class DatasetReader:
     def __init__(self, mnist_path="../dataset/mnist/"):
         self.MNIST_PATH = mnist_path
@@ -17,7 +18,7 @@ class DatasetReader:
         return mlxtend.data.loadlocal_mnist(self.test_images, self.test_labels)
 
 
-def get_mlxtend_mnist():
+def get_mlxtend_mnist_5000():
     X, y = mnist_data()
     X = X / 255
     return X, y
