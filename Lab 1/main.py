@@ -3,10 +3,13 @@ import numpy as np
 
 from helpers.readers import get_mlxtend_mnist_5000
 from helpers.viewer import plot_digit2
-import activations
+from propagation import logistic_regression
+from loss import *
+from backward_propagation import cross_entropy_backward_propagation
 
 if __name__ == '__main__':
     X, y = get_mlxtend_mnist_5000()
+    X = X / 255
 
     # Use only label 0 and 0 or 1 as result
     y_new = np.zeros(y.shape)
@@ -34,3 +37,37 @@ if __name__ == '__main__':
 
     index = 0
     plot_digit2(X_train[:, index], y_train[:, index])
+    print(X_train[:, index])
+
+#     Calculation block
+    learning_rate = 1
+
+    X = X_train
+    Y = y_train
+
+    amInputs = X.shape[1]
+    amFeatures = X.shape[0]
+
+    W = np.random.randn(amFeatures, 1)
+    b = np.zeros((1, 1))
+
+    # Loop
+    for i in range(2000):
+        U, A = logistic_regression(W, X, b)
+
+        # Expected Y and actual result after Activation
+        cost = compute_cross_entropy_loss(Y, A)
+
+        # Gradient
+        dW, dB = cross_entropy_backward_propagation(X, Y, A)
+
+        # Correction
+        W = W - dW * learning_rate
+        b = b - dB * learning_rate
+
+        if i % 100 == 0:
+            print("Epoch {}, cost {}".format(i, cost))
+
+
+
+

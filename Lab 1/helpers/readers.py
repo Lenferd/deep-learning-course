@@ -19,9 +19,7 @@ class DatasetReader:
 
 
 def get_mlxtend_mnist_5000():
-    X, y = mnist_data()
-    X = X / 255
-    return X, y
+    return mnist_data()
 
 
 def get_sklearn_mnist():
