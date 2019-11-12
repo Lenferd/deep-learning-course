@@ -7,6 +7,8 @@ from propagation import logistic_regression
 from loss import *
 from backward_propagation import cross_entropy_backward_propagation
 
+from helpers.metrics import classification_report
+
 if __name__ == '__main__':
     X, y = get_mlxtend_mnist_5000()
     X = X / 255
@@ -52,7 +54,7 @@ if __name__ == '__main__':
     b = np.zeros((1, 1))
 
     # Loop
-    for i in range(2000):
+    for i in range(200):
         U, A = logistic_regression(W, X, b)
 
         # Expected Y and actual result after Activation
@@ -68,6 +70,6 @@ if __name__ == '__main__':
         if i % 100 == 0:
             print("Epoch {}, cost {}".format(i, cost))
 
-
-
-
+    # Z, A = logistic_regression(W, X_test, b)
+    #
+    # classification_report(A, y_test)
