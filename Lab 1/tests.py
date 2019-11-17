@@ -44,6 +44,11 @@ class TestNumpy(unittest.TestCase):
         shuffled_arr = arr[permutation]
         print("test_shuffle_array\n {} \n {}".format(arr, shuffled_arr))
 
+    def test_matmul(self):
+        a = np.array([[1, 0], [0, 1]])
+        b = np.array([[4, 1], [2, 2]])
+        print("test_shuffle_array\n {} \n {}".format(np.matmul(a, b), np.matmul(b, a)))
+
 
 if __name__ == '__main__':
     unittest.main()
