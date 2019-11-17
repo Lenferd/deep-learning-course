@@ -83,7 +83,7 @@ if __name__ == '__main__':
 
     # Loop
     for i in range(2000):
-        shape_debug_loop = 0
+        shape_debug_loop = 1
         # Propagation
         U1 = np.matmul(W1.T, X) + b1
         log_debug("U1.shape {}".format(U1.shape), shape_debug_loop)
@@ -108,27 +108,25 @@ if __name__ == '__main__':
 
         # dL/dy(1)
         dY1_hat = np.matmul(W2, (Y2_hat - Y))
-        log_debug("dY1_hat.shape {}".format(dY1_hat.shape))
+        log_debug("dY1_hat.shape {}".format(dY1_hat.shape), shape_debug_loop)
 
         # dL/du(1)
         dU1 = dY1_hat * Y1_hat * (1 - Y1_hat)
-        log_debug("dU1.shape {}".format(dU1.shape))
+        log_debug("dU1.shape {}".format(dU1.shape), shape_debug_loop)
 
         dW1 = (1. / sBatch) * np.matmul(X, dU1.T)
-        log_debug("dW1.shape {}".format(dW1.shape))
         db1 = (1. / sBatch) * np.sum(dU1, axis=1, keepdims=True)
-        log_debug("db1.shape {}".format(db1.shape))
+        log_debug("dW1.shape {}".format(dW1.shape), shape_debug_loop)
+        log_debug("db1.shape {}".format(db1.shape), shape_debug_loop)
 
         # Correction
 
-        debug_correction = 0
-        log_debug("W2.shape before {}".format(W2.shape), debug_correction)
+        debug_correction = 1
         W2 = W2 - dW2 * learning_rate
-        log_debug("W2.shape after {}".format(W2.shape), debug_correction)
         b2 = b2 - db2 * learning_rate
 
-        # W1 = W1 - dW1 * learning_rate
-        # b1 = b1 - db1 * learning_rate
+        W1 = W1 - dW1 * learning_rate
+        b1 = b1 - db1 * learning_rate
 
         if i % 10 == 0:
             print("Epoch {}, cost {}".format(i, cost))
