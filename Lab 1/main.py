@@ -83,7 +83,7 @@ if __name__ == '__main__':
 
     # Loop
     for i in range(2000):
-        shape_debug_loop = 1
+        shape_debug_loop = 0
         # Propagation
         U1 = np.matmul(W1.T, X) + b1
         log_debug("U1.shape {}".format(U1.shape), shape_debug_loop)
@@ -99,25 +99,24 @@ if __name__ == '__main__':
         cost = compute_cross_entropy_loss(Y, Y2_hat)
 
         # Gradient W2
-        dW2 = (1. / sHidden) * np.matmul(Y1_hat, (Y2_hat - Y).T)
-        log_debug("dW2.shape {}".format(dW2.shape), shape_debug)
+        dW2 = (1. / sBatch) * np.matmul(Y1_hat, (Y2_hat - Y).T)
+        log_debug("dW2.shape {}".format(dW2.shape), shape_debug_loop)
 
         # What is keepdims and axis 1
-        db2 = (1. / sHidden) * np.sum(Y2_hat - Y, axis=1, keepdims=True)
-        log_debug("db2.shape {}".format(db2.shape))
+        db2 = (1. / sBatch) * np.sum(Y2_hat - Y, axis=1, keepdims=True)
+        log_debug("db2.shape {}".format(db2.shape), shape_debug_loop)
 
-        # np.matmul(W2, (A2 - Y).T)
         # dL/dy(1)
-        dA1 = np.matmul(W2, Y2_hat - Y)
-        log_debug("dA1.shape {}".format(dA1.shape))
+        dY1_hat = np.matmul(W2, (Y2_hat - Y))
+        log_debug("dY1_hat.shape {}".format(dY1_hat.shape))
 
         # dL/du(1)
-        dU1 = dA1 * Y1_hat * (1 - Y1_hat)
+        dU1 = dY1_hat * Y1_hat * (1 - Y1_hat)
         log_debug("dU1.shape {}".format(dU1.shape))
 
-        dW1 = (1. / sBatch) * np.matmul(dU1, X.T)
+        dW1 = (1. / sBatch) * np.matmul(X, dU1.T)
         log_debug("dW1.shape {}".format(dW1.shape))
-        db1 = (1. / sHidden) * np.sum(dU1, axis=1, keepdims=True)
+        db1 = (1. / sBatch) * np.sum(dU1, axis=1, keepdims=True)
         log_debug("db1.shape {}".format(db1.shape))
 
         # Correction
@@ -128,10 +127,10 @@ if __name__ == '__main__':
         log_debug("W2.shape after {}".format(W2.shape), debug_correction)
         b2 = b2 - db2 * learning_rate
 
-        W1 = W1 - dW1 * learning_rate
-        b1 = b1 - db1 * learning_rate
+        # W1 = W1 - dW1 * learning_rate
+        # b1 = b1 - db1 * learning_rate
 
-        if i % 1 == 0:
+        if i % 10 == 0:
             print("Epoch {}, cost {}".format(i, cost))
 
     # Z, A = logistic_regression(W, X_test, b)
