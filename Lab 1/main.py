@@ -82,8 +82,8 @@ if __name__ == '__main__':
     log_debug("b2.shape {}".format(b2.shape), shape_debug)
 
     # Loop
-    for i in range(2000):
-        shape_debug_loop = 1
+    for i in range(10000):
+        shape_debug_loop = 0
         # Propagation
         U1 = np.matmul(W1.T, X) + b1
         log_debug("U1.shape {}".format(U1.shape), shape_debug_loop)
@@ -128,7 +128,7 @@ if __name__ == '__main__':
         W1 = W1 - dW1 * learning_rate
         b1 = b1 - db1 * learning_rate
 
-        if i % 10 == 0:
+        if i % 100 == 0:
             print("Epoch {}, cost {}".format(i, cost))
 
     # Z, A = logistic_regression(W, X_test, b)
